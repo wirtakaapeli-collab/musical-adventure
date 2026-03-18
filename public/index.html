@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AsterDex Auto Bot</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <section id="loginCard" class="card login-card">
+      <h1>AsterDex Auto Bot</h1>
+      <p>Kirjaudu sisään hallitaksesi bottia samalla domainilla.</p>
+      <form id="loginForm">
+        <label>Käyttäjä
+          <input name="username" value="Olli" required />
+        </label>
+        <label>PIN
+          <input name="pin" type="password" value="011100" required />
+        </label>
+        <button type="submit">Kirjaudu</button>
+      </form>
+      <div id="loginError" class="error"></div>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Täysautomaattinen AsterDex-botti</p>
+          <h2>Paper trading → Live trading yhdellä togglella</h2>
+          <p>Kun <strong>paperTrading=false</strong> ja API-avaimet on syötetty, backend alkaa käyttää oikeaa rahaa.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="startBtn" class="primary">Start</button>
+          <button id="stopBtn">Stop</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+      </header>
+
+      <div class="grid stats">
+        <article class="card"><span>Saldo</span><strong id="balance">-</strong></article>
+        <article class="card"><span>Equity</span><strong id="equity">-</strong></article>
+        <article class="card"><span>Live PnL</span><strong id="livePnl">-</strong></article>
+        <article class="card"><span>Realisoitu PnL</span><strong id="realizedPnl">-</strong></article>
+        <article class="card"><span>Exposure</span><strong id="exposure">-</strong></article>
+        <article class="card"><span>Win rate</span><strong id="winRate">-</strong></article>
+      </div>
+
+      <div class="grid main-grid">
+        <section class="card">
+          <h3>Botin tila</h3>
+          <div class="kv"><span>Status</span><strong id="statusBadge"></strong></div>
+          <div class="kv"><span>Mode</span><strong id="modeBadge"></strong></div>
+          <div class="kv"><span>Symbol</span><strong id="symbolText"></strong></div>
+          <div class="kv"><span>Markkinahinta</span><strong id="marketPrice"></strong></div>
+          <div class="kv"><span>24h muutos</span><strong id="marketChange"></strong></div>
+          <div class="kv"><span>Viimeisin signaali</span><strong id="lastSignal"></strong></div>
+          <div class="kv"><span>Strategy score</span><strong id="strategyScore"></strong></div>
+          <div class="kv"><span>Avoin positio</span><strong id="positionSummary"></strong></div>
+        </section>
+
+        <section class="card">
+          <h3>Asetukset</h3>
+          <form id="settingsForm" class="settings-form">
+            <label><span>Paper trading</span><select name="paperTrading"><option value="true">true</option><option value="false">false</option></select></label>
+            <label><span>Symbol</span><input name="symbol" value="BTCUSDT" /></label>
+            <label><span>Timeframe</span><input name="timeframe" value="15m" /></label>
+            <label><span>Leverage</span><input name="leverage" type="number" min="1" step="1" /></label>
+            <label><span>Max capital / trade</span><input name="maxCapitalPerTrade" type="number" min="10" step="10" /></label>
+            <label><span>Risk % / trade</span><input name="riskPerTradePct" type="number" min="0.1" step="0.1" /></label>
+            <label><span>TP ATR</span><input name="takeProfitAtr" type="number" min="0.5" step="0.1" /></label>
+            <label><span>SL ATR</span><input name="stopLossAtr" type="number" min="0.5" step="0.1" /></label>
+            <label><span>Trail ATR</span><input name="trailingStopAtr" type="number" min="0.2" step="0.1" /></label>
+            <label><span>Poll ms</span><input name="pollIntervalMs" type="number" min="5000" step="1000" /></label>
+            <label><span>API key</span><input name="apiKey" placeholder="AsterDex API key" /></label>
+            <label><span>API secret</span><input name="apiSecret" type="password" placeholder="AsterDex API secret" /></label>
+            <button type="submit" class="primary">Tallenna asetukset</button>
+          </form>
+          <p class="hint">Kun paperTrading=false, syötä API-avaimet ja paina Start.</p>
+        </section>
+
+        <section class="card">
+          <h3>Trade-historia</h3>
+          <div id="trades" class="table"></div>
+        </section>
+
+        <section class="card">
+          <h3>Bottilogit</h3>
+          <div id="logs" class="log-list"></div>
+        </section>
+      </div>
+    </section>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

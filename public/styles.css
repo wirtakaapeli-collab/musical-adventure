@@ -1,0 +1,62 @@
+:root {
+  color-scheme: dark;
+  --bg: #07111f;
+  --card: #111c2d;
+  --soft: #18263d;
+  --text: #eff6ff;
+  --muted: #94a3b8;
+  --green: #16c784;
+  --red: #ff5c5c;
+  --blue: #5ab0ff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: linear-gradient(180deg, #04101b, #0f172a);
+  color: var(--text);
+}
+.page { max-width: 1300px; margin: 0 auto; padding: 24px; }
+.hidden { display: none; }
+.card {
+  background: rgba(17, 28, 45, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+.login-card { max-width: 420px; margin: 12vh auto; }
+.hero, .grid { display: grid; gap: 16px; }
+.hero { grid-template-columns: 1.5fr 1fr; align-items: center; margin-bottom: 18px; }
+.stats { grid-template-columns: repeat(6, 1fr); margin-bottom: 18px; }
+.main-grid { grid-template-columns: repeat(2, 1fr); }
+.hero-actions, .settings-form { display: grid; gap: 12px; }
+.settings-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+label { display: grid; gap: 6px; color: var(--muted); font-size: 14px; }
+input, select, button {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: var(--soft);
+  color: var(--text);
+  padding: 12px 14px;
+}
+button { cursor: pointer; font-weight: 700; }
+button.primary { background: linear-gradient(90deg, #1d4ed8, #0ea5e9); }
+.stats strong { font-size: 28px; margin-top: 8px; display: block; }
+.kv { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(148, 163, 184, 0.12); }
+.table, .log-list { display: grid; gap: 10px; max-height: 440px; overflow: auto; }
+.table-row, .log-item {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(24, 38, 61, 0.8);
+  border-radius: 14px;
+}
+.table-row { grid-template-columns: repeat(5, 1fr); }
+.log-item small, .hint, .eyebrow { color: var(--muted); }
+.error { color: var(--red); margin-top: 12px; }
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+@media (max-width: 1024px) {
+  .stats, .main-grid, .hero, .settings-form, .table-row { grid-template-columns: 1fr; }
+}

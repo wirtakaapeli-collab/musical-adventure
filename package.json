@@ -1,0 +1,14 @@
+{
+  "name": "asterdex-auto-bot",
+  "version": "1.0.0",
+  "description": "AsterDex automated trading bot with paper/live trading and built-in dashboard",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "lint": "node --check src/server.js && node --check src/bot.js && node --check src/asterdex-client.js && node --check src/strategy.js && node --check src/store.js && node --check src/auth.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

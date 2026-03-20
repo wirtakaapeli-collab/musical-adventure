@@ -1,0 +1,18 @@
+{
+  "name": "aster-bot",
+  "version": "1.0.0",
+  "description": "Production-grade intelligent Node.js trading bot for AsterDEX ASTERUSDT-PERP",
+  "type": "module",
+  "main": "aster-bot/bot.js",
+  "scripts": {
+    "start": "node aster-bot/bot.js",
+    "backtest": "node aster-bot/bot.js --backtest",
+    "lint": "node --check aster-bot/*.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.18.1"
+  }
+}

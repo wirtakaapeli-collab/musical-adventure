@@ -1,0 +1,14 @@
+{
+  "name": "smart-bot-v3-asterdex",
+  "version": "1.0.0",
+  "description": "Smart Bot V3 for AsterDEX with paper trading by default and a live-safe mode gate.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "ws": "^8.18.1"
+  }
+}

@@ -50,6 +50,7 @@ class MarketFeed extends EventEmitter {
     super();
     this.config = config;
     this.interval = null;
+    this.restPollInterval = null;
     this.ws = null;
     this.usingLiveMarketData = false;
     this.state = new Map();
@@ -95,7 +96,12 @@ class MarketFeed extends EventEmitter {
   }
 
   async start() {
-    if (this.interval || this.ws) return;
+    if (this.interval || this.restPollInterval || this.ws) return;
+    if (this.config.mode === 'paper') {
+      this.startPaperRestPolling();
+      return;
+    }
+
     try {
       await this.startLiveFeed();
       this.usingLiveMarketData = true;
@@ -108,7 +114,9 @@ class MarketFeed extends EventEmitter {
 
   stop() {
     if (this.interval) clearInterval(this.interval);
+    if (this.restPollInterval) clearInterval(this.restPollInterval);
     this.interval = null;
+    this.restPollInterval = null;
     if (this.ws) this.ws.close();
     this.ws = null;
     this.usingLiveMarketData = false;
@@ -116,6 +124,54 @@ class MarketFeed extends EventEmitter {
 
   emitStatus(message) {
     this.emit('status', { message, usingLiveMarketData: this.usingLiveMarketData });
+  }
+
+
+  startPaperRestPolling() {
+    if (this.config.mode === 'live') {
+      this.emitStatus('Skipping REST paper polling because bot is in LIVE mode');
+      return;
+    }
+
+    const poll = async () => {
+      await this.pollSelectedPairsViaRest();
+    };
+
+    poll().catch((error) => {
+      this.emitStatus(`Paper REST poll failed: ${error.message}`);
+    });
+    this.restPollInterval = setInterval(() => {
+      poll().catch((error) => {
+        this.emitStatus(`Paper REST poll failed: ${error.message}`);
+      });
+    }, 5000);
+    this.emitStatus('Started 5-second REST polling for selected paper-trading pairs');
+  }
+
+  async pollSelectedPairsViaRest() {
+    await Promise.all(this.config.pairs.map(async (pair) => {
+      const symbol = normalizeSymbol(pair);
+      const priceData = await this.fetchJson(`/fapi/v1/ticker/price?symbol=${symbol}`);
+      const state = this.state.get(symbol);
+      if (!state) return;
+
+      const price = normalizePrice(symbol, priceData.price, state.price);
+      const lastPrice = normalizePrice(symbol, state.price, price);
+      const candle = {
+        open: lastPrice,
+        high: lastPrice,
+        low: lastPrice,
+        close: price,
+        volume: 0,
+        timestamp: Date.now()
+      };
+
+      state.price = price;
+      state.source = 'ASTERDEX_REST';
+      state.candles.push(candle);
+      if (state.candles.length > 500) state.candles.shift();
+      this.emit('candle', { pair: symbol, candle, candles: [...state.candles], source: 'ASTERDEX_REST' });
+    }));
   }
 
   startSimulation() {

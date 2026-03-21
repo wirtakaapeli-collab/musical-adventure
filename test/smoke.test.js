@@ -1,15 +1,14 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const config = require('../config.json');
-const {
-  Strategy
-} = require('../core/strategy');
+const { Strategy } = require('../core/strategy');
 const {
   REST_BASE_URL,
   WS_MARKET_BASE_URL,
   normalizePrice,
   normalizeCandle,
-  toStreamSymbol
+  toStreamSymbol,
+  MarketFeed
 } = require('../data/marketFeed');
 
 test('paper mode is the safe default', () => {
@@ -40,4 +39,41 @@ test('ASTERUSDT values are parsed as floats without scaling errors', () => {
     volume: 1200.5,
     timestamp: 2
   });
+});
+
+test('paper REST polling emits selected-pair candle updates compatible with strategy pipeline', async () => {
+  const paperConfig = {
+    ...config,
+    mode: 'paper',
+    pairs: ['ASTERUSDT'],
+    pairsSeed: { ASTERUSDT: 2.25 }
+  };
+  const feed = new MarketFeed(paperConfig);
+  feed.fetchJson = async () => ({ symbol: 'ASTERUSDT', price: '2.50000000' });
+
+  const event = await new Promise((resolve) => {
+    feed.once('candle', resolve);
+    feed.pollSelectedPairsViaRest();
+  });
+
+  assert.equal(event.pair, 'ASTERUSDT');
+  assert.equal(event.source, 'ASTERDEX_REST');
+  assert.equal(event.candle.open, 2.25);
+  assert.equal(event.candle.high, 2.25);
+  assert.equal(event.candle.low, 2.25);
+  assert.equal(event.candle.close, 2.5);
+  assert.equal(event.candle.volume, 0);
+  assert.equal(event.candles.at(-1).close, 2.5);
+  assert.ok(event.candles.length <= 500);
+});
+
+test('paper REST polling is skipped in live mode', () => {
+  const liveFeed = new MarketFeed({ ...config, mode: 'live' });
+  let status = '';
+  liveFeed.on('status', ({ message }) => {
+    status = message;
+  });
+  liveFeed.startPaperRestPolling();
+  assert.equal(status, 'Skipping REST paper polling because bot is in LIVE mode');
+  assert.equal(liveFeed.restPollInterval, null);
 });

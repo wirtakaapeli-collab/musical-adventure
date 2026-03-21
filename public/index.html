@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Bot V3 for AsterDEX</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Smart Bot V3 for AsterDEX</h1>
+        <p>Adaptive paper-first crypto trading bot dashboard.</p>
+      </div>
+      <div class="pill-row">
+        <span id="modePill" class="pill paper">PAPER</span>
+        <button id="toggleButton">Stop</button>
+      </div>
+    </header>
+
+    <section class="grid summary-grid">
+      <article class="card"><h2>Balance</h2><div id="balance" class="big"></div></article>
+      <article class="card"><h2>PnL</h2><div id="pnl" class="big"></div></article>
+      <article class="card"><h2>Exchange</h2><div id="exchange" class="big"></div></article>
+      <article class="card"><h2>Open Positions</h2><div id="openCount" class="big"></div></article>
+    </section>
+
+    <section class="grid content-grid">
+      <article class="card">
+        <h2>Market Overview</h2>
+        <div id="marketCards"></div>
+      </article>
+      <article class="card">
+        <h2>Open Positions</h2>
+        <div id="positions"></div>
+      </article>
+    </section>
+
+    <section class="grid content-grid">
+      <article class="card"><h2>Recent Trades</h2><div id="trades"></div></article>
+      <article class="card"><h2>Logs</h2><pre id="logs" class="logs"></pre></article>
+    </section>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

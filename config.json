@@ -1,0 +1,57 @@
+{
+  "mode": "paper",
+  "liveEnabled": false,
+  "exchange": "AsterDex",
+  "api": {
+    "key": "",
+    "secret": ""
+  },
+  "pairs": ["BTCUSDT", "ETHUSDT", "ASTERUSDT"],
+  "startingBalance": 10000,
+  "fees": {
+    "maker": 0.0008,
+    "taker": 0.001
+  },
+  "slippage": 0.0007,
+  "candleIntervalMs": 3000,
+  "tradeFrequencyMinutes": 4,
+  "maxTradesPerDay": 18,
+  "maxPositionsPerPair": 3,
+  "dailyLossLimitPct": 4,
+  "globalDrawdownKillSwitchPct": 8,
+  "timeExitMinutes": 30,
+  "reentry": {
+    "enabled": true,
+    "maxPerTrend": 2,
+    "minPreviousRMultiple": 0.5
+  },
+  "risk": {
+    "minPct": 0.008,
+    "maxPct": 0.015,
+    "volatileReduction": 0.65,
+    "sidewaysReduction": 0.25,
+    "trendingBoost": 1.15
+  },
+  "atrMultipliers": {
+    "stopLoss": 1.6,
+    "takeProfit1": 1.8,
+    "trailingBase": 1.5,
+    "trailingTight": 0.9
+  },
+  "thresholds": {
+    "trending": 62,
+    "sideways": 88,
+    "volatile": 68
+  },
+  "marketMode": {
+    "atrVolatilePct": 0.018,
+    "atrSidewaysPct": 0.006,
+    "emaSpreadTrendingPct": 0.0035,
+    "volatilityLookback": 14
+  },
+  "pairsSeed": {
+    "BTCUSDT": 68000,
+    "ETHUSDT": 3600,
+    "ASTERUSDT": 2.3
+  }
+}

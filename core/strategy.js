@@ -25,6 +25,7 @@ class Strategy {
     this.snapshots = {};
     this.lastClosedTrade = new Map();
 
+    this.feed.on('status', ({ message }) => this.log(`FEED ${message}`));
     this.feed.on('candle', (payload) => {
       if (!this.running) return;
       this.onCandle(payload);
@@ -59,14 +60,14 @@ class Strategy {
     return this.config.mode === 'live' && this.config.liveEnabled && this.config.api.key && this.config.api.secret;
   }
 
-  onCandle({ pair, candle, candles }) {
+  onCandle({ pair, candle, candles, source }) {
     const now = Date.now();
     const market = this.marketMode.analyze(candles);
     const profile = this.optimizer.getModeProfile(market.mode, this.config);
     const entry = this.entryEngine.evaluate({ pair, candles, market, profile });
     const riskGate = this.riskManager.canTrade(this.positionManager.balance);
 
-    this.log(`MODE ${pair} ${market.mode} atr=${market.atrPct.toFixed(4)} vol=${market.volatility.toFixed(4)} riskGate=${riskGate.allowed}`);
+    this.log(`MODE ${pair} ${market.mode} atr=${market.atrPct.toFixed(4)} vol=${market.volatility.toFixed(4)} source=${source || 'UNKNOWN'} riskGate=${riskGate.allowed}`);
     this.log(`SCORE ${pair} total=${entry.score} breakdown=${JSON.stringify(entry.scoreBreakdown)}`);
 
     const pairPositions = this.positionManager.getPairPositions(pair);
@@ -94,7 +95,8 @@ class Strategy {
       riskPct: this.riskManager.getRiskPct(market.mode, profile, this.positionManager.balance),
       reason: entry.reason,
       score: entry.score,
-      updatedAt: now
+      updatedAt: now,
+      source: source || 'UNKNOWN'
     };
 
     if (!riskGate.allowed) {

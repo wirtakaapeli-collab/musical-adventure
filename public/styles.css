@@ -28,7 +28,7 @@ header {
   margin-bottom: 24px;
 }
 .summary-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 .content-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -84,4 +84,13 @@ button {
 }
 @media (max-width: 960px) {
   .summary-grid, .content-grid, header { grid-template-columns: 1fr; }
+}
+
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: #020617;
+  color: white;
 }

@@ -31,3 +31,11 @@ Open `http://localhost:3000`.
 ## Configuration
 
 Edit `config.json` to manage pairs, balances, thresholds, ATR multipliers, risk, and optional live settings.
+
+
+## AsterDEX connectivity
+
+- REST base URL: `https://fapi.asterdex.com`
+- WebSocket market data base URL: `wss://fstream.asterdex.com/stream?streams=...`
+- Combined stream subscriptions use lower-case symbols such as `asterusdt@aggTrade`, `asterusdt@depth`, `asterusdt@kline_1m`, and `asterusdt@markPrice`
+- Market data parsing normalizes string values with `parseFloat()`-style handling so ASTERUSDT prices, candles, ATR, and EMA calculations keep correct decimal precision

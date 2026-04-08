@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Päiväkirjat</title>
+  <style>
+    :root { --bg:#f3f6fb; --card:#fff; --text:#1f2a37; --muted:#52606d; --border:#d8e2ef; --shadow:0 8px 22px rgba(15,23,42,.08); --radius:14px; }
+    * { box-sizing: border-box; } body { margin:0; font-family:"Segoe UI",Roboto,Arial,sans-serif; color:var(--text); background:var(--bg); }
+    .nav { background:#0f2942; box-shadow:0 3px 10px rgba(0,0,0,.2); } .nav-inner { max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; }
+    .brand { color:#fff; text-decoration:none; font-weight:700; } .nav-links { display:flex; flex-wrap:wrap; gap:10px; } .nav-links a { color:#fff; text-decoration:none; background:rgba(255,255,255,.14); padding:8px 12px; border-radius:999px; font-weight:600; }
+    .container { max-width:900px; margin:30px auto 60px; padding:0 20px; } .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px; }
+    ul { list-style:none; margin:14px 0 0; padding:0; display:grid; gap:10px; } .pdf-link { display:inline-block; color:#1f4f85; font-weight:700; text-decoration:none; background:#e5f0ff; border:1px solid #bdd8ff; padding:10px 14px; border-radius:10px; }
+    .empty { color:var(--muted); font-style:italic; }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Päänavigaatio"><div class="nav-inner"><a class="brand" href="index.html">Kirjallinen sivusto</a><div class="nav-links"><a href="index.html">Etusivu</a><a href="tarinat.html">Tarinat</a><a href="paivakirjat.html">Päiväkirjat</a><a href="novellit.html">Novellit</a><a href="paivan-ajatus.html">Päivän ajatus</a><a href="ollin-sivu.php">Admin</a></div></div></nav>
+  <main class="container"><section class="card"><h1>Päiväkirjat</h1><p>Kaikki Päiväkirjat-osion PDF-tiedostot.</p><ul id="pdf-list"><li class="empty">Ladataan tiedostoja...</li></ul></section></main>
+  <script>
+    // Haetaan osion PDF-lista admin-PHP:n JSON-rajapinnasta.
+    fetch('ollin-sivu.php?mode=list&section=paivakirjat').then(r => r.json()).then(data => {
+      const list = document.getElementById('pdf-list'); list.innerHTML = '';
+      if (!data.files || data.files.length === 0) { list.innerHTML = '<li class="empty">Ei PDF-tiedostoja tässä osiossa.</li>'; return; }
+      data.files.forEach(file => { const li = document.createElement('li'); li.innerHTML = `<a class="pdf-link" href="${encodeURIComponent(file)}" target="_blank" rel="noopener">${file}</a>`; list.appendChild(li); });
+    }).catch(() => { document.getElementById('pdf-list').innerHTML = '<li class="empty">PDF-listan haku epäonnistui.</li>'; });
+  </script>
+</body>
+</html>

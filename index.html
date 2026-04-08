@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etusivu</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --text: #1f2a37;
+      --muted: #52606d;
+      --primary: #2b6cb0;
+      --primary-dark: #1f4f85;
+      --border: #d8e2ef;
+      --shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #0f2942;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.14);
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto 60px;
+      padding: 0 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: clamp(1.8rem, 2.7vw, 2.5rem);
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .link-row {
+      margin-top: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button-link,
+    .pdf-link {
+      display: inline-block;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 8px 12px;
+      transition: 0.2s ease;
+    }
+
+    .button-link {
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .button-link:hover,
+    .button-link:focus-visible {
+      background: var(--primary-dark);
+    }
+
+    .pdf-link {
+      color: var(--primary-dark);
+      background: #e5f0ff;
+      border: 1px solid #bdd8ff;
+    }
+
+    .pdf-link:hover,
+    .pdf-link:focus-visible {
+      background: #d3e7ff;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Päänavigaatio">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Kirjallinen sivusto</a>
+      <div class="nav-links">
+        <a href="index.html">Etusivu</a>
+        <a href="tarinat.html">Tarinat</a>
+        <a href="paivakirjat.html">Päiväkirjat</a>
+        <a href="novellit.html">Novellit</a>
+        <a href="paivan-ajatus.html">Päivän ajatus</a>
+        <a href="ollin-sivu.php">Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1>Etusivu</h1>
+
+    <div class="grid">
+      <!-- Tarinat-osio -->
+      <section class="card">
+        <h2>Tarinat</h2>
+        <p>Kokoelma pidempiä kertomuksia ja lukuhetkiä.</p>
+        <div class="link-row">
+          <a class="button-link" href="tarinat.html">Avaa osio</a>
+          <a class="pdf-link" href="tarinat-esimerkki.pdf" target="_blank" rel="noopener">Avaa PDF</a>
+        </div>
+      </section>
+
+      <!-- Päiväkirjat-osio -->
+      <section class="card">
+        <h2>Päiväkirjat</h2>
+        <p>Henkilökohtaisia merkintöjä arjesta ja ajatuksista.</p>
+        <div class="link-row">
+          <a class="button-link" href="paivakirjat.html">Avaa osio</a>
+          <a class="pdf-link" href="paivakirjat-esimerkki.pdf" target="_blank" rel="noopener">Avaa PDF</a>
+        </div>
+      </section>
+
+      <!-- Novellit-osio -->
+      <section class="card">
+        <h2>Novellit</h2>
+        <p>Lyhyitä tarinoita eri teemoista ja tunnelmista.</p>
+        <div class="link-row">
+          <a class="button-link" href="novellit.html">Avaa osio</a>
+          <a class="pdf-link" href="novellit-esimerkki.pdf" target="_blank" rel="noopener">Avaa PDF</a>
+        </div>
+      </section>
+
+      <!-- Päivän ajatus -osio -->
+      <section class="card">
+        <h2>Päivän ajatus</h2>
+        <p>Yksi päivittäin vaihtuva tai ajankohtainen oivallus.</p>
+        <div class="link-row">
+          <a class="button-link" href="paivan-ajatus.html">Avaa osio</a>
+          <a class="pdf-link" href="paivan-ajatus.pdf" target="_blank" rel="noopener">Avaa PDF</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
